@@ -78,4 +78,17 @@ class BookRepositoryTest {
         assertFalse(bookRepository.findById(1L).isPresent());
     }
     //5.책 수정
+    @Test
+    @Sql("classpath:db/tableInit.sql")
+    void 책_수정(){
+        //given
+        //when
+        Book bookPS = bookRepository.save(new Book(1L,"junit","kdomo"));
+        bookRepository.findAll().stream()
+                .forEach(book -> {
+                    System.out.println(book.toString());
+                });
+        //then
+        assertNotEquals(bookRepository.findById(1L).get().getTitle(),"junit5");
+    }
 }
