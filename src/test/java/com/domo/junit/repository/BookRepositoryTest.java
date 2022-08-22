@@ -25,11 +25,10 @@ class BookRepositoryTest {
 
         //when
         Book bookPS = bookRepository.save(book);
-        assertEquals("junit5",bookPS.getTitle());
-        assertEquals("domo",bookPS.getAuthor());
 
         //then
-
+        assertEquals("junit5",bookPS.getTitle());
+        assertEquals("domo",bookPS.getAuthor());
     }
 
     //2.책 목록 보기
