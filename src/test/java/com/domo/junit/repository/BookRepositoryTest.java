@@ -1,9 +1,16 @@
 package com.domo.junit.repository;
 
 import com.domo.junit.domain.Book;
+import org.aspectj.lang.annotation.After;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,10 +20,17 @@ class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
-
+    @BeforeEach
+    void 데이터_준비(){
+        Book book = Book.builder()
+                .title("junit5")
+                .author("domo")
+                .build();
+        bookRepository.save(book);
+    }
     //1.책 등록
     @Test
-    void 책등록테스트(){
+    void 책_등록_테스트(){
         //given
         Book book = Book.builder()
                 .title("junit5")
@@ -32,10 +46,36 @@ class BookRepositoryTest {
     }
 
     //2.책 목록 보기
+    @Test
+    void 책_목록_보기(){
+        //given
 
+        //when
+        List<Book> booksPS = bookRepository.findAll();
+        //then
+        assertEquals(1,booksPS.size());
+    }
     //3.책 한건 보기
+    @Test
+    @Sql("classpath:db/tableInit.sql")
+    void 책_한건_보기(){
+        //given
 
-    //4.책 수정
+        //when
+        Book bookPS = bookRepository.findById(1L).get();
+        //then
+        assertEquals("junit5",bookPS.getTitle());
+        assertEquals("domo",bookPS.getAuthor());
+    }
 
-    //5.책 삭제
+    //4.책 삭제
+    @Test
+    @Sql("classpath:db/tableInit.sql")
+    void 책_삭제(){
+        //when
+        bookRepository.deleteById(1L);
+        //then
+        assertFalse(bookRepository.findById(1L).isPresent());
+    }
+    //5.책 수정
 }
