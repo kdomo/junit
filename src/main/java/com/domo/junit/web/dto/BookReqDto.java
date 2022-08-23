@@ -2,7 +2,7 @@ package com.domo.junit.web.dto;
 
 import com.domo.junit.domain.Book;
 
-public class BookDto {
+public class BookReqDto {
     private String title;
     private String author;
 
