@@ -2,6 +2,7 @@ package com.domo.junit.web.dto;
 
 
 import com.domo.junit.domain.Book;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,10 +15,10 @@ public class BookResDto {
     private String title;
     private String author;
 
-    public BookResDto toResDto(Book book) {
-        this.id = book.getId();
-        this.title = book.getTitle();
-        this.author = book.getAuthor();
-        return this;
+    @Builder
+    public BookResDto(Long id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
     }
 }

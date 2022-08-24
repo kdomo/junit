@@ -1,5 +1,6 @@
 package com.domo.junit.domain;
 
+import com.domo.junit.web.dto.BookResDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,5 +33,13 @@ public class Book {
     public void update(String title, String author) {
         this.title = title;
         this.author = author;
+    }
+
+    public BookResDto toResDto(){
+        return BookResDto.builder()
+                .id(id)
+                .title(title)
+                .author(author)
+                .build();
     }
 }

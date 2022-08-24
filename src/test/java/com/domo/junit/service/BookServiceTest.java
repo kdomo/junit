@@ -4,8 +4,6 @@ import com.domo.junit.domain.Book;
 import com.domo.junit.repository.BookRepository;
 import com.domo.junit.web.dto.BookReqDto;
 import com.domo.junit.web.dto.BookResDto;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
