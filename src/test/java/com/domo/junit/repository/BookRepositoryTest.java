@@ -1,7 +1,6 @@
 package com.domo.junit.repository;
 
 import com.domo.junit.domain.Book;
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -9,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 class BookRepositoryTest {
@@ -42,8 +39,8 @@ class BookRepositoryTest {
         Book bookPS = bookRepository.save(book);
 
         //then
-        assertEquals("junit5",bookPS.getTitle());
-        assertEquals("domo",bookPS.getAuthor());
+        assertThat(bookPS.getTitle()).isEqualTo("junit5");
+        assertThat(bookPS.getAuthor()).isEqualTo("domo");
     }
 
     //2.책 목록 보기
@@ -54,7 +51,7 @@ class BookRepositoryTest {
         //when
         List<Book> booksPS = bookRepository.findAll();
         //then
-        assertEquals(1,booksPS.size());
+        assertThat(booksPS.size()).isEqualTo(1);
     }
     //3.책 한건 보기
     @Test
@@ -65,8 +62,8 @@ class BookRepositoryTest {
         //when
         Book bookPS = bookRepository.findById(1L).get();
         //then
-        assertEquals("junit5",bookPS.getTitle());
-        assertEquals("domo",bookPS.getAuthor());
+        assertThat(bookPS.getTitle()).isEqualTo("junit5");
+        assertThat(bookPS.getAuthor()).isEqualTo("domo");
     }
 
     //4.책 삭제
@@ -76,7 +73,8 @@ class BookRepositoryTest {
         //when
         bookRepository.deleteById(1L);
         //then
-        assertFalse(bookRepository.findById(1L).isPresent());
+//        assertFalse(bookRepository.findById(1L).isPresent());
+        assertThat(bookRepository.findById(1L).isPresent()).isFalse();
     }
     //5.책 수정
     @Test
@@ -90,6 +88,6 @@ class BookRepositoryTest {
                     System.out.println(book.toString());
                 });
         //then
-        assertNotEquals(bookRepository.findById(1L).get().getTitle(),"junit5");
+        assertThat(bookRepository.findById(1L).get().getTitle()).isNotEqualTo("junit5");
     }
 }
