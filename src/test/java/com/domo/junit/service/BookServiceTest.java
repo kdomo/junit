@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -58,4 +59,37 @@ class BookServiceTest {
 
     }
 
+    @Test
+    void 책_한건보기(){
+
+        when(bookRepository.findById(any()))
+                .thenReturn(Optional.of(new Book(1L, "junit5", "domo")));
+
+        BookResDto dto = bookService.책_한건보기(1L);
+
+        assertThat(dto.getId()).isEqualTo(1L);
+        assertThat(dto.getTitle()).isEqualTo("junit5");
+        assertThat(dto.getAuthor()).isEqualTo("domo");
+
+    }
+
+    @Test
+    void 책_수정하기(){
+        //given
+        BookReqDto bookReqDto = new BookReqDto();
+        bookReqDto.setTitle("수정 후 title");
+        bookReqDto.setAuthor("수정 후 author");
+
+        //stub
+        when(bookRepository.findById(any()))
+                .thenReturn(Optional.of(new Book(1L, "수정 전 title", "수정 전 author")));
+
+        //when
+        BookResDto dto = bookService.책_수정(1L,bookReqDto);
+
+        //then
+        assertThat(dto.getId()).isEqualTo(1L);
+        assertThat(dto.getTitle()).isEqualTo("수정 후 title");
+        assertThat(dto.getAuthor()).isEqualTo("수정 후 author");
+    }
 }
