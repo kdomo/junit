@@ -5,7 +5,6 @@ import com.domo.junit.service.BookService;
 import com.domo.junit.controller.request.BookReqDto;
 import com.domo.junit.controller.response.BookResDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,15 +17,21 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/book")
+@RequestMapping("/api/v1/books")
 @RequiredArgsConstructor
 public class BookApiController {
     private final BookService bookService;
 
     @GetMapping
-    public ResponseEntity<List<BookResDto>> getBookList(){
-        List<BookResDto> list = bookService.책_목록보기();
-        return new ResponseEntity<>(list,HttpStatus.OK);
+    public ResponseEntity<ResultDto> getBookList(){
+        List<BookResDto> list = bookService.getBookList();
+        return new ResponseEntity<>(ResultDto.builder().code(1).msg("조회 성공").body(list).build(),HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultDto> getBookList(@PathVariable Long id){
+        BookResDto book = bookService.getBook(id);
+        return new ResponseEntity<>(ResultDto.builder().code(1).msg("조회 성공").body(book).build(),HttpStatus.OK);
     }
 
 
@@ -40,14 +45,16 @@ public class BookApiController {
             }
             throw new RuntimeException(errorMap.toString());
         }
-        BookResDto BookResDto = bookService.책_등록(bookReqDto);
+        BookResDto BookResDto = bookService.save(bookReqDto);
         return new ResponseEntity<>(ResultDto.builder().code(1).msg("책 등록 성공").body(BookResDto).build(), HttpStatus.CREATED);
     }
 
-//    public ResponseEntity<List<BookResDto>> getBook(){}
-//
-//    public ResponseEntity<List<BookResDto>> getBook(){}
-//
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResultDto> bookDelete(@PathVariable Long id){
+        bookService.delete(id);
+        return new ResponseEntity<>(ResultDto.builder().code(1).msg("삭제 성공").body(id).build(), HttpStatus.OK);
+    }
+
 //    public ResponseEntity<List<BookResDto>> getBook(){}
 
 

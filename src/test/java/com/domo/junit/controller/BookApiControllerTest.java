@@ -35,7 +35,7 @@ class BookApiControllerTest {
         List<BookResDto> list = new ArrayList<>();
         list.add(BookResDto.builder().title("testTitle").author("testAuthor").build());
 
-        given(bookService.책_목록보기()).willReturn(list);
+        given(bookService.getBookList()).willReturn(list);
 
         mvc.perform(get("/api"))
                 .andExpect(status().isOk())

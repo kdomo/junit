@@ -36,7 +36,7 @@ class BookServiceTest {
         // stub
         when(bookRepository.save(any())).thenReturn(dto.toEntity());
 
-        BookResDto bookResDto = bookService.책_등록(dto);
+        BookResDto bookResDto = bookService.save(dto);
         assertThat(bookResDto.getTitle()).isEqualTo(dto.getTitle());
     }
 
@@ -49,7 +49,7 @@ class BookServiceTest {
         when(bookRepository.findAll()).thenReturn(books);
 
 
-        List<BookResDto> bookResDtoList = bookService.책_목록보기();
+        List<BookResDto> bookResDtoList = bookService.getBookList();
 
 
         assertThat(bookResDtoList.get(0).getTitle()).isEqualTo("junit5");
@@ -65,7 +65,7 @@ class BookServiceTest {
         when(bookRepository.findById(any()))
                 .thenReturn(Optional.of(new Book(1L, "junit5", "domo")));
 
-        BookResDto dto = bookService.책_한건보기(1L);
+        BookResDto dto = bookService.getBook(1L);
 
         assertThat(dto.getId()).isEqualTo(1L);
         assertThat(dto.getTitle()).isEqualTo("junit5");
@@ -85,7 +85,7 @@ class BookServiceTest {
                 .thenReturn(Optional.of(new Book(1L, "수정 전 title", "수정 전 author")));
 
         //when
-        BookResDto dto = bookService.책_수정(1L,bookReqDto);
+        BookResDto dto = bookService.update(1L,bookReqDto);
 
         //then
         assertThat(dto.getId()).isEqualTo(1L);
