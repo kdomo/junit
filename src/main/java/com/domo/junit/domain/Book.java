@@ -1,6 +1,6 @@
 package com.domo.junit.domain;
 
-import com.domo.junit.web.dto.BookResDto;
+import com.domo.junit.controller.response.BookResDto;
 import lombok.*;
 
 import javax.persistence.*;

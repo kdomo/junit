@@ -2,8 +2,8 @@ package com.domo.junit.service;
 
 import com.domo.junit.domain.Book;
 import com.domo.junit.repository.BookRepository;
-import com.domo.junit.web.dto.BookReqDto;
-import com.domo.junit.web.dto.BookResDto;
+import com.domo.junit.controller.request.BookReqDto;
+import com.domo.junit.controller.response.BookResDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

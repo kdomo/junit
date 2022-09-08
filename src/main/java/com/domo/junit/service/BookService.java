@@ -2,8 +2,8 @@ package com.domo.junit.service;
 
 import com.domo.junit.domain.Book;
 import com.domo.junit.repository.BookRepository;
-import com.domo.junit.web.dto.BookReqDto;
-import com.domo.junit.web.dto.BookResDto;
+import com.domo.junit.controller.request.BookReqDto;
+import com.domo.junit.controller.response.BookResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

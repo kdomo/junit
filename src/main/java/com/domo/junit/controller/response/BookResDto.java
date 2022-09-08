@@ -1,12 +1,9 @@
-package com.domo.junit.web.dto;
+package com.domo.junit.controller.response;
 
 
-import com.domo.junit.domain.Book;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.security.PrivateKey;
 
 @Getter
 @NoArgsConstructor
