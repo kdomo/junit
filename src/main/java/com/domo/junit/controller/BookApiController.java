@@ -46,16 +46,29 @@ public class BookApiController {
             throw new RuntimeException(errorMap.toString());
         }
         BookResDto BookResDto = bookService.save(bookReqDto);
-        return new ResponseEntity<>(ResultDto.builder().code(1).msg("책 등록 성공").body(BookResDto).build(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResultDto.builder().code(1).msg("등록 성공").body(BookResDto).build(), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ResultDto> bookDelete(@PathVariable Long id){
         bookService.delete(id);
-        return new ResponseEntity<>(ResultDto.builder().code(1).msg("삭제 성공").body(id).build(), HttpStatus.OK);
+        return new ResponseEntity<>(ResultDto.builder().code(1).msg("삭제 성공").build(), HttpStatus.OK);
     }
 
-//    public ResponseEntity<List<BookResDto>> getBook(){}
+    @PutMapping
+    public ResponseEntity<ResultDto> bookUpdate(@PathVariable Long id, @RequestBody @Valid BookReqDto bookReqDto, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            Map<String, String> errorMap = new HashMap<>();
+            for(FieldError fe : bindingResult.getFieldErrors()){
+                errorMap.put(fe.getField(), fe.getDefaultMessage());
+            }
+            throw new RuntimeException(errorMap.toString());
+        }
+        BookResDto bookResDto =  bookService.update(id, bookReqDto);
+
+        return  new ResponseEntity<>(ResultDto.builder().code(1).msg("수정 성공").body(bookResDto).build(),HttpStatus.OK);
+
+    }
 
 
 }
