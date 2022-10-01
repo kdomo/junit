@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,6 +37,7 @@ class BookApiControllerTest {
     }
 
     @Test
+    @DisplayName("책 저장하기 테스트")
     void saveBook() throws Exception {
         //given
         BookReqDto bookReqDto = new BookReqDto();
@@ -54,9 +56,44 @@ class BookApiControllerTest {
 
         assertThat(title).isEqualTo("책 제목");
         assertThat(author).isEqualTo("책 작가");
-        System.out.println(response.getBody());
 
 
+    }
+
+    @Test
+    @DisplayName("책 목록보기 테스트")
+    void bookList(){
+        //given
+
+        //when
+        HttpEntity<String> request = new HttpEntity<>(null, headers);
+        ResponseEntity<String> response = rt.exchange("/api/v1/books", HttpMethod.GET, request, String.class);
+
+        //then
+        DocumentContext dc = JsonPath.parse(response.getBody());
+        int code = dc.read("$.code");
+        assertThat(code).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("책 한권보기 테스트")
+    void getBookOne(){
+        //given
+        Long id = 1L;
+
+        //when
+        HttpEntity<String> request = new HttpEntity<>(null, headers);
+        ResponseEntity<String> response = rt.exchange("/api/v1/books/" + id, HttpMethod.GET, request, String.class);
+
+        //then
+        DocumentContext dc = JsonPath.parse(response.getBody());
+        int code = dc.read("$.code");
+        String title = dc.read("$.body.title");
+        String author = dc.read("$.body.author");
+
+        assertThat(code).isEqualTo(1);
+        assertThat(title).isEqualTo("책 제목");
+        assertThat(author).isEqualTo("책 작가");
     }
 
 }
