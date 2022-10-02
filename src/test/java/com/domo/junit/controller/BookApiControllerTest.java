@@ -96,4 +96,25 @@ class BookApiControllerTest {
         assertThat(author).isEqualTo("책 작가");
     }
 
+    @Test
+    @DisplayName("책 삭제하기 테스트")
+    void deleteBook(){
+        //given
+        Long id = 1L;
+        BookReqDto book = new BookReqDto();
+        book.setTitle("title");
+        book.setAuthor("author");
+        bookService.save(book);
+        //when
+        HttpEntity<String> request = new HttpEntity<>(null, headers);
+        ResponseEntity<String> response = rt.exchange("/api/v1/books/" + id, HttpMethod.DELETE, request, String.class);
+        DocumentContext dc = JsonPath.parse(response.getBody());
+        int code = dc.read("$.code");
+
+        //then
+        System.out.println("code : " + code);
+        assertThat(code).isEqualTo(1);
+
+    }
+
 }
