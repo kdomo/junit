@@ -29,7 +29,7 @@ public class BookApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResultDto> getBookList(@PathVariable Long id){
+    public ResponseEntity<ResultDto> getBookOne(@PathVariable Long id){
         BookResDto book = bookService.getBook(id);
         return new ResponseEntity<>(ResultDto.builder().code(1).msg("조회 성공").body(book).build(),HttpStatus.OK);
     }
@@ -55,7 +55,7 @@ public class BookApiController {
         return new ResponseEntity<>(ResultDto.builder().code(1).msg("삭제 성공").build(), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<ResultDto> bookUpdate(@PathVariable Long id, @RequestBody @Valid BookReqDto bookReqDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             Map<String, String> errorMap = new HashMap<>();
